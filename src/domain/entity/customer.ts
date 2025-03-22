@@ -1,12 +1,13 @@
 //A entidade sempre vai ter que representar o stado correto e atual daquele elemento
 
-import Address from "./address";
+import Address from './address';
 
 export default class Customer {
     private _id: string; //Uma entidade é única(possui um ID)
     private _name: string = "";
     private _address!: Address;
     private _active: boolean = true;
+    private _rewardPoints: number = 0;
 
     constructor(id:string, name:string) {
         this._id=id;
@@ -57,12 +58,20 @@ export default class Customer {
         return this._address;
     }
 
-    set address(address: Address){
+    changeAddress(address: Address){
         this._address = address;
     }
     
     isActive(){
         return this._active;
+    }
+
+    addRewardPoints(points: number){
+        this._rewardPoints += points;
+    }
+
+    get rewardPoints(): number{
+        return this._rewardPoints;
     }
 }
 

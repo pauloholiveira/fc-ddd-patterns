@@ -1,4 +1,4 @@
-import { OrderItem } from "./orderItem";
+import OrderItem from './orderItem';
 
 export default class Order {
     private _id!: string;
@@ -38,5 +38,13 @@ export default class Order {
 
     get id() {
         return this._id;
+    }
+
+    get customerId() {
+        return this._customerId;
+    }
+
+    get items() {
+        return this._items;
     }
 }
