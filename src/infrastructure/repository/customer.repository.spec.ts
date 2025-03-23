@@ -89,7 +89,7 @@ describe("CustomerRepository test", () => {
         });
     });
 
-    it("should throw a error when a customer si not found", async () => {
+    it("should throw a error when a customer is not found", async () => {
 
         const customerRepository = new CustomerRepository();
         const customer = new Customer("1", "Customer");
