@@ -1,9 +1,9 @@
 //A entidade sempre vai ter que representar o stado correto e atual daquele elemento
 
-import EventDispatcher from '../event/@shared/event-dispatcher';
-import CustomerAddressChangedEvent from '../event/customer/customer-address-changed.event';
-import EnviaConsoleLogHandler from '../event/customer/handler/envia-console-log.handler';
-import Address from './address';
+import EventDispatcher from '../../@shared/event/event-dispatcher';
+import CustomerAddressChangedEvent from '../event/customer-address-changed.event';
+import EnviaConsoleLogHandler from '../event/handler/envia-console-log.handler';
+import Address from '../value-object/address';
 
 export default class Customer {
     private _id: string; //Uma entidade é única(possui um ID)
