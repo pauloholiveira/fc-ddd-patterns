@@ -24,6 +24,16 @@ describe("Envia Console Log Create Event Tests", () => {
         eventDispatcher.register("CustomerCreatedEvent", eventHandler);
         eventDispatcher.register("CustomerCreatedEvent", eventHandler2);
 
+        expect(
+            eventDispatcher.getEventHandlers["CustomerCreatedEvent"]            
+        ).toBeDefined();
+
+        expect(eventDispatcher.getEventHandlers["CustomerCreatedEvent"].length)
+            .toBe(2);
+        
+        expect(eventDispatcher.getEventHandlers["CustomerCreatedEvent"][0])
+            .toMatchObject(eventHandler);
+        
         // Cria um espião (spy) para o manipulador de evento
         // e um espião para o console.log
         // O espião irá verificar se o manipulador de evento foi chamado corretamente
@@ -62,6 +72,16 @@ describe("Envia Console Log Create Event Tests", () => {
         const consoleSpy = jest.spyOn(console, "log").mockImplementation();
 
         eventDispatcher.register("CustomerAddressChangedEvent", eventHandler);
+        
+        expect(
+            eventDispatcher.getEventHandlers["CustomerAddressChangedEvent"]            
+        ).toBeDefined();
+
+        expect(eventDispatcher.getEventHandlers["CustomerAddressChangedEvent"].length)
+            .toBe(1);
+        
+        expect(eventDispatcher.getEventHandlers["CustomerAddressChangedEvent"][0])
+            .toMatchObject(eventHandler);
         
         const newAddress = new Address("Rua 1", 123, "São Paulo", "12345-678");
 
