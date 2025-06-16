@@ -27,26 +27,23 @@ describe("Envia Console Log Create Event Tests", () => {
         // Cria um espião (spy) para o manipulador de evento
         // e um espião para o console.log
         // O espião irá verificar se o manipulador de evento foi chamado corretamente
-        const spyEventHandler = jest.spyOn(eventHandler, "handle");
+        const eventHandlerSpy = jest.spyOn(eventHandler, "handle");
         const consoleSpy = jest.spyOn(console, "log").mockImplementation();
 
 
         // Cria um evento de cliente criado
-        const event = new CustomerCreatedEvent({
+        const customerCreatedEvent = new CustomerCreatedEvent({
             id: "1",
-            name: "Paulo Oliveira",
-            email: "pauloh2004@gmail.com",
-            createdAt: new Date(),
-            updatedAt: new Date(),
+            name: "Paulo Oliveira"
         });
 
         // Notifica o EventDispatcher com o evento de cliente criado
         // O EventDispatcher irá chamar os manipuladores de evento registrados
-        eventDispatcher.notify(event);
+        eventDispatcher.notify(customerCreatedEvent);
 
         // Verifica se o manipulador de evento foi chamado
-        expect(spyEventHandler).toHaveBeenCalled();
-        expect(spyEventHandler).toHaveBeenCalledWith(event);
+        expect(eventHandlerSpy).toHaveBeenCalled();
+        expect(eventHandlerSpy).toHaveBeenCalledWith(customerCreatedEvent);
 
         // Verifica se o console.log foi chamado com as mensagens corretas
         expect(consoleSpy).toHaveBeenCalledWith(
@@ -59,33 +56,28 @@ describe("Envia Console Log Create Event Tests", () => {
     });
 
     it("Should log a message when Client Adress is changed", () => {
-
-        const cliente = new Customer("1", "Paulo Oliveira");
-        
-        const spyEventHandler = jest.spyOn(cliente, "changeAddress");
+        const eventDispatcher = new EventDispatcher();
+        const eventHandler = new EnviaConsoleLogHandler();
+        const spyEventHandler = jest.spyOn(eventHandler, "handle");
         const consoleSpy = jest.spyOn(console, "log").mockImplementation();
+
+        eventDispatcher.register("CustomerAddressChangedEvent", eventHandler);
+        
         const newAddress = new Address("Rua 1", 123, "São Paulo", "12345-678");
 
-        // Mudando o endereço inicial do cliente
-        cliente.changeAddress(newAddress);
-        cliente.activate();
+        const event = new CustomerAddressChangedEvent({
+            id: "1",
+            nome: "Paulo Oliveira",
+            address: newAddress
+        });
         
-        expect(spyEventHandler).toHaveBeenCalled();
-        expect(spyEventHandler).toHaveBeenCalledWith(newAddress);
-
-        expect(consoleSpy).toHaveBeenCalledWith(
-            `Endereço do cliente: ${cliente.id}, ${cliente.name} alterado para: ${newAddress.street}, ${newAddress.number} - ${newAddress.zipCode} - ${newAddress.city}`
-        );
-
-        const newAddress2 = new Address("Rua 2", 12, "São Paulo", "12345-000");
-        // Mudando o endereço novamente
-        cliente.changeAddress(newAddress2);
+        eventDispatcher.notify(event);
 
         expect(spyEventHandler).toHaveBeenCalled();
-        expect(spyEventHandler).toHaveBeenCalledWith(newAddress2);
+        expect(spyEventHandler).toHaveBeenCalledWith(event);
 
         expect(consoleSpy).toHaveBeenCalledWith(
-            `Endereço do cliente: ${cliente.id}, ${cliente.name} alterado para: ${newAddress.street}, ${newAddress.number} - ${newAddress.zipCode} - ${newAddress.city}`
+            `Endereço do cliente: 1, Paulo Oliveira alterado para: ${newAddress.street}, ${newAddress.number} - ${newAddress.zipCode} - ${newAddress.city}`
         );
     });
 });

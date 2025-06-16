@@ -63,16 +63,6 @@ export default class Customer {
 
     changeAddress(address: Address){
         this._address = address;
-        const eventDispatcher = new EventDispatcher();
-        const eventHandler = new EnviaConsoleLogHandler();
-        eventDispatcher.register("CustomerAddressChangedEvent", eventHandler);
-        const event = new CustomerAddressChangedEvent({
-            id: this._id,
-            nome: this._name,
-            address: this._address
-        });
-        
-        eventDispatcher.notify(event);
     }
     
     isActive(){
